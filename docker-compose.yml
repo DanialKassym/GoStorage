@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: my-postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changemepass
+      POSTGRES_DB: Storage
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  go-app:
+    build: ./  
+    environment:
+      DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
+    depends_on:
+      - postgres  
+    networks:
+      - my-network
+    ports:
+      - "8080:8080"  
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
