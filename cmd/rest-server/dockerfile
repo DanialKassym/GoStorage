@@ -1,11 +1,12 @@
 # Build Stage
-FROM golang:1.24.1-bookworm AS builder
+FROM golang:1.24.3-bookworm AS builder
 
 WORKDIR /app
 
 COPY go.mod go.sum ./
+
 RUN go mod download
-COPY .env ./
+
 COPY . .
 
 RUN go build -o app main.go
@@ -13,7 +14,7 @@ RUN go build -o app main.go
 # Run Stage
 FROM debian:bookworm-slim
 
-WORKDIR /app
+WORKDIR /app/cmd/rest-server
 
 # Copy both the app binary and .env file
 COPY --from=builder /app/app .

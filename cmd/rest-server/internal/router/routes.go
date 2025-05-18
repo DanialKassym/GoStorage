@@ -12,6 +12,7 @@ func InitRoutes() {
 	mux.HandleFunc("GET /", handlers.RetriveUsers)
 	mux.HandleFunc("POST /upload/", handlers.UploadObject)
 	//mux.HandleFunc("POST /auth/", handlers.Authorize)
+	mux.HandleFunc("GET /show/",handlers.Show)
 	log.Println("starting server on 8080")
 	err := http.ListenAndServe("0.0.0.0:8080", mux)
 	log.Fatal(err)

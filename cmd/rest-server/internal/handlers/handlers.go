@@ -55,6 +55,11 @@ func UploadObject(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func Show (w http.ResponseWriter, r *http.Request) {
+	str := "hello world"
+	w.Write([]byte(str))
+}
+
 /*func Authorize(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")

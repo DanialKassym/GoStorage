@@ -15,7 +15,7 @@ import (
 func Savefile(file multipart.File, ext string, w http.ResponseWriter, header multipart.FileHeader) {
 	id := generateUniqueID()
 	filename := strconv.FormatInt(id, 10) + header.Filename
-	dstPath := filepath.Join("/storage", ext, filename)
+	dstPath := filepath.Join("/tmp", ext, filename)
 
 	fileSize, _ := file.Seek(0, io.SeekEnd)
 	file.Seek(0, io.SeekStart) // Reset file pointer to the beginning as it was moved till the end after being copied to buffer

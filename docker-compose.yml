@@ -22,7 +22,7 @@ services:
         max-file: "3"
 
   go-app:
-    build: ./  
+    build: ./cmd/rest-server  
     environment:
       DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
     depends_on:
