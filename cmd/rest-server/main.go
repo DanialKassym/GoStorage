@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	routes "github.com/DanialKassym/GoStorage/internal/router"
+	routes "github.com/DanialKassym/GoStorage/cmd/rest-server/internal/router"
 )
 
 func main() {

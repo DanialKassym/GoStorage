@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	db "github.com/DanialKassym/GoStorage/internal/Database"
+	db "github.com/DanialKassym/GoStorage/cmd/rest-server/internal/Database"
 )
 
 // Used for db connection testing
@@ -54,3 +54,31 @@ func UploadObject(w http.ResponseWriter, r *http.Request) {
 	buf.Reset()
 	w.WriteHeader(http.StatusOK)
 }
+
+/*func Authorize(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	body, err := io.ReadAll(r.Body)
+    if err != nil {
+        http.Error(w, "Failed to read request body", http.StatusBadRequest)
+        return
+    }
+
+    var req AuthRequest
+    err = json.Unmarshal(body, &req)
+    if err != nil {
+        http.Error(w, "Invalid JSON", http.StatusBadRequest)
+        return
+    }
+	if authentication.ValidateJWT(req.Token){
+		w.WriteHeader(http.StatusOK)
+        fmt.Fprintln(w, "Request is authorized")
+    } else {
+        w.WriteHeader(http.StatusUnauthorized)
+        fmt.Fprintln(w, "Unauthorized")
+    }
+}
+
+type AuthRequest struct {
+    Token   string `json:"token"`
+}*/

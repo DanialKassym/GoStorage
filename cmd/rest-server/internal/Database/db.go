@@ -4,16 +4,17 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 
-	users "github.com/DanialKassym/GoStorage/internal/models"
+	users "github.com/DanialKassym/GoStorage/cmd/rest-server/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
-	//"github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 )
 
 func GetAllUsers() []users.User {
 	// uncomment if you wish to run locally
 
-	/*cwd, err := os.Getwd()
+	cwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println("error getting current directory: ", err)
 		os.Exit(1)
@@ -25,7 +26,7 @@ func GetAllUsers() []users.User {
 	if err != nil {
 		fmt.Println("error loading .env: ", err)
 		os.Exit(1)
-	}*/
+	}
 
 	db := os.Getenv("DB_URL")
 
