@@ -11,4 +11,4 @@ A simple, S3-inspired object storage system written in Go. This system mimics th
 - Add .env file with in cmd/rest-server:
 - DB_URL: postgres://YOURPOSTGRESUSER:changemepass@localhost:5432/YOURDBNAME?sslmode=disable
 - Add .env file with in cmd/auth:
-- 
+- JWT_KEY=YOURJWTKEY
