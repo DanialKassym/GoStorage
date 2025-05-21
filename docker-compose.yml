@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:15
+    image: postgres:17
     container_name: my-postgres-db
     environment:
       POSTGRES_USER: postgres
@@ -25,6 +25,7 @@ services:
     build: ./cmd/rest-server  
     environment:
       DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
+      AUTH_URL: http://localhost:8081/
     depends_on:
       - postgres  
     networks:
