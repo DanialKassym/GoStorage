@@ -6,13 +6,12 @@ import (
 	"os"
 	"path/filepath"
 
-	users "github.com/DanialKassym/GoStorage/cmd/rest-server/internal/models"
+	"github.com/DanialKassym/GoStorage/cmd/authentication/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
 
-func GetAllUsers() []users.User {
-
+func AddUser(user models.User, hashedpass string) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println("error getting current directory: ", err)
@@ -36,24 +35,11 @@ func GetAllUsers() []users.User {
 	}
 	defer dbpool.Close()
 
-	rows, err := dbpool.Query(context.Background(), "SELECT * FROM users")
+	rows, err := dbpool.Query(context.Background(), "INSERT INTO users (name, email, password) VALUES ($1, $2 , $3);",user.Username, user.Email, hashedpass)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed select: %v\n", err)
+		fmt.Fprintf(os.Stderr, "QueryRow failed : %v\n", err)
 		os.Exit(1)
 	}
 	defer rows.Close()
 
-	var ret []users.User
-	for rows.Next() {
-		var u users.User
-		if err := rows.Scan(&u.ID, &u.Name, &u.Email, &u.Password); err != nil {
-			fmt.Fprintf(os.Stderr, "Couldnt retrieve the object: %v\n", err)
-			os.Exit(1)
-		}
-		ret = append(ret, u)
-	}
-	fmt.Println("here")
-	fmt.Println(ret)
-
-	return ret
 }

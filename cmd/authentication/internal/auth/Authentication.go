@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 )
 
-func GenerateJWT() {
+func GenerateJWT(username string) (string, error) {
 	var (
 		key []byte
 		t   *jwt.Token
@@ -31,13 +32,16 @@ func GenerateJWT() {
 	}
 
 	key = []byte(os.Getenv(("JWT_KEY")))
-	t = jwt.New(jwt.SigningMethodHS256)
+	claims := jwt.MapClaims{
+		"username": username,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+	}
+	t = jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	s, err = t.SignedString(key)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return "", err
 	}
-	fmt.Println(s)
+	return s, nil
 }
 
 func ValidateJWT(tokenString string) bool {

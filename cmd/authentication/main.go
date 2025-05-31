@@ -1,13 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	authentication "github.com/DanialKassym/GoStorage/cmd/authentication/auth"
+	"github.com/DanialKassym/GoStorage/cmd/authentication/internal/router"
 )
 
-func main(){
-	fmt.Println("hello")
-	authentication.GenerateJWT()
-	
+func main() {
+	router.InitRoutes()
 }
