@@ -12,7 +12,7 @@ func InitRoutes() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /login/", handlers.Authorize)
 	mux.HandleFunc("POST /register/", handlers.Register)
-	mux.HandleFunc("GET /get/", handlers.Get)
+	mux.HandleFunc("GET /main/", handlers.Main)
 	log.Println("starting server on 8081")
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},

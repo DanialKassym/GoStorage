@@ -41,5 +41,5 @@ func AddUser(user models.User, hashedpass string) {
 		os.Exit(1)
 	}
 	defer rows.Close()
-
 }
+

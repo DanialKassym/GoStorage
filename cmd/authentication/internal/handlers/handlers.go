@@ -7,8 +7,9 @@ import (
 	"strings"
 
 	authentication "github.com/DanialKassym/GoStorage/cmd/authentication/internal/auth"
-	"github.com/DanialKassym/GoStorage/cmd/authentication/internal/db"
+	db "github.com/DanialKassym/GoStorage/cmd/authentication/internal/db"
 	models "github.com/DanialKassym/GoStorage/cmd/authentication/internal/models"
+	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -40,38 +41,40 @@ func Authorize(w http.ResponseWriter, r *http.Request) {
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("here")
 	var u models.User
+	validate := validator.New(validator.WithRequiredStructEnabled())
+
 	json.NewDecoder(r.Body).Decode(&u)
 	fmt.Printf("The user request value %v", u)
-	hashedpass, err := bcrypt.GenerateFromPassword([]byte(u.Password), 2)
+	err := validate.Struct(u)
 	if err != nil {
-		w.Write([]byte("couldnt hash the password"))
+		for _, err := range err.(validator.ValidationErrors) {
+			fmt.Printf("Field '%s' failed on the '%s' tag\n", err.Field(), err.Tag())
+		}
+		http.Error(w, "Validation failed", http.StatusBadRequest)
 		return
 	}
-	if len(u.Username) > 3 && len(u.Password) > 3 {
-		db.AddUser(u, string(hashedpass))
-		tokenString, err := authentication.GenerateJWT(u.Username)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		fmt.Println(tokenString)
-		fmt.Println(authentication.ValidateJWT(tokenString))
-		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("Authorization", "Bearer "+tokenString)
-		w.WriteHeader(http.StatusOK)
 
-		json.NewEncoder(w).Encode(map[string]string{
-			"token": tokenString,
-		})
-
-	} else {
-		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Fprint(w, "Invalid credentials")
+	hashedpass, err := bcrypt.GenerateFromPassword([]byte(u.Password), 2)
+	if err != nil {
+		http.Error(w, "Couldnt hash the password", http.StatusBadRequest)
+		return
 	}
+	db.AddUser(u, string(hashedpass))
+	//tokenString, err := authentication.GenerateJWT(u.Username)
+
+	/*fmt.Println(tokenString)
+	fmt.Println(authentication.ValidateJWT(tokenString))
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Authorization", "Bearer "+tokenString)
+	*/
+
+	/*json.NewEncoder(w).Encode(map[string]string{
+		"token": tokenString,
+	})*/
+
 }
 
-func Get(w http.ResponseWriter, r *http.Request) {
+func Main(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello to auth"))
-	w.WriteHeader(200)
 }
