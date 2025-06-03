@@ -14,10 +14,37 @@ import (
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
+	var u models.LoginUser
+	validate := validator.New(validator.WithRequiredStructEnabled())
 
+	json.NewDecoder(r.Body).Decode(&u)
+	fmt.Printf("The user request value %v", u)
+	err := validate.Struct(u)
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			fmt.Printf("Field '%s' failed on the '%s' tag\n", err.Field(), err.Tag())
+		}
+		http.Error(w, "Validation failed", http.StatusBadRequest)
+		return
+	}
+	pass := db.Getuser(u.Username)
+	error := bcrypt.CompareHashAndPassword([]byte(pass), []byte(u.Password))
+	if error != nil {
+		http.Error(w, "Credential Error", http.StatusBadRequest)
+		return
+	}
+	tokenString, err := authentication.GenerateJWT(u.Password)
+	if err != nil {
+		http.Error(w, "Couldnt GenerateJWTtoken", http.StatusBadRequest)
+		return
+	}
+	fmt.Println(tokenString)
+	fmt.Println(authentication.ValidateJWT(tokenString))
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Authorization", "Bearer "+tokenString)
 }
 
-func Authorize(w http.ResponseWriter, r *http.Request) {
+func CheckJWT(w http.ResponseWriter, r *http.Request) {
 	authHeader := r.Header.Get("Authorization")
 	fmt.Println("Raw header:", authHeader)
 
@@ -61,13 +88,6 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	db.AddUser(u, string(hashedpass))
-	//tokenString, err := authentication.GenerateJWT(u.Username)
-
-	/*fmt.Println(tokenString)
-	fmt.Println(authentication.ValidateJWT(tokenString))
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Authorization", "Bearer "+tokenString)
-	*/
 
 	/*json.NewEncoder(w).Encode(map[string]string{
 		"token": tokenString,
