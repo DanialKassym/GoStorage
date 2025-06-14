@@ -27,12 +27,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Validation failed", http.StatusBadRequest)
 		return
 	}
+
 	pass := db.Getuser(u.Username)
 	error := bcrypt.CompareHashAndPassword([]byte(pass), []byte(u.Password))
 	if error != nil {
 		http.Error(w, "Credential Error", http.StatusBadRequest)
 		return
 	}
+
 	tokenString, err := authentication.GenerateJWT(u.Password)
 	if err != nil {
 		http.Error(w, "Couldnt GenerateJWTtoken", http.StatusBadRequest)

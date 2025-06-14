@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:17
@@ -21,11 +19,29 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  go-auth:
+    build: ./cmd/authentication
+    environment:
+      DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
+      JWT_KEY : YourSecretJWTKey
+      AUTH_URL: http://localhost:8081/
+    depends_on:
+      - postgres  
+    networks:
+      - my-network
+    ports:
+      - "8081:8081"  
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   go-app:
     build: ./cmd/rest-server  
     environment:
       DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
-      AUTH_URL: http://localhost:8081/
+      AUTH_URL: http://localhost:8080/
     depends_on:
       - postgres  
     networks:
