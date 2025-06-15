@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
-	"github.com/DanialKassym/GoStorage/cmd/authentication/internal/models"
+	"github.com/DanialKassym/GoStorage/auth-service/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+)
+
+var (
+	envPath = ".env"
 )
 
 func AddUser(user models.User, hashedpass string) {
@@ -17,13 +22,24 @@ func AddUser(user models.User, hashedpass string) {
 		fmt.Println("error getting current directory: ", err)
 		os.Exit(1)
 	}
+	fmt.Println(cwd)
+	time.Sleep(115 * time.Second) /*
+		path := filepath.Join("..", "..", "..") // two dirs up
+		absPath, _ := filepath.Abs(path)
+		envFilePath := filepath.Join(absPath, ".env")
+		err = godotenv.Load(envFilePath)
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}/*
 
-	envFilePath := filepath.Join(cwd, ".env")
-
-	err = godotenv.Load(envFilePath)
+		/*err = godotenv.Load(envFilePath)
+		if err != nil {
+			fmt.Println("error loading .env: ", err)
+			os.Exit(1)
+		}*/
+	err = godotenv.Load(envPath)
 	if err != nil {
-		fmt.Println("error loading .env: ", err)
-		os.Exit(1)
+		fmt.Println("error loading .env file: ", err)
 	}
 
 	db := os.Getenv("DB_URL")
@@ -35,7 +51,7 @@ func AddUser(user models.User, hashedpass string) {
 	}
 	defer dbpool.Close()
 
-	rows, err := dbpool.Query(context.Background(), "INSERT INTO users (name, email, password) VALUES ($1, $2 , $3);",user.Username, user.Email, hashedpass)
+	rows, err := dbpool.Query(context.Background(), "INSERT INTO users (name, email, password) VALUES ($1, $2 , $3);", user.Username, user.Email, hashedpass)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed : %v\n", err)
 		os.Exit(1)
@@ -67,13 +83,13 @@ func Getuser(user string) string {
 	}
 	defer dbpool.Close()
 
-	rows, err := dbpool.Query(context.Background(), "Select password FROM users where name = $1;",user)
+	rows, err := dbpool.Query(context.Background(), "Select password FROM users where name = $1;", user)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed : %v\n", err)
 		os.Exit(1)
 	}
 	defer rows.Close()
-	
+
 	var ret string
 	for rows.Next() {
 		if err := rows.Scan(&ret); err != nil {

@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	authentication "github.com/DanialKassym/GoStorage/cmd/authentication/internal/auth"
-	db "github.com/DanialKassym/GoStorage/cmd/authentication/internal/db"
-	models "github.com/DanialKassym/GoStorage/cmd/authentication/internal/models"
+	authentication "github.com/DanialKassym/GoStorage/auth-service/internal/auth"
+	db "github.com/DanialKassym/GoStorage/auth-service/internal/db"
+	models "github.com/DanialKassym/GoStorage/auth-service/internal/models"
 	"github.com/go-playground/validator/v10"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -40,8 +40,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Couldnt GenerateJWTtoken", http.StatusBadRequest)
 		return
 	}
-	fmt.Println(tokenString)
-	fmt.Println(authentication.ValidateJWT(tokenString))
+
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Authorization", "Bearer "+tokenString)
 }
@@ -62,7 +61,7 @@ func CheckJWT(w http.ResponseWriter, r *http.Request) {
 	valid := authentication.ValidateJWT(tokenString)
 	if !valid {
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
-		return
+		return 
 	} else {
 		fmt.Fprintln(w, "Token is valid")
 	}
