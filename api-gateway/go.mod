@@ -1,4 +1,4 @@
-module github.com/DanialKassym/GoStorage/storage-service
+module github.com/DanialKassym/GoStorage/api-gateway
 
 go 1.24.3
 

@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	db "github.com/DanialKassym/GoStorage/storage-service/internal/Database"
+	db "github.com/DanialKassym/GoStorage/api-gateway/internal/Database"
 )
 
 // Used for db connection testing

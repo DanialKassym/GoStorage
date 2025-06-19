@@ -4,7 +4,7 @@ services:
     container_name: my-postgres-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: changemepass
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: Storage
     ports:
       - "5432:5432"
@@ -22,8 +22,8 @@ services:
   go-auth:
     build: ./cmd/authentication
     environment:
-      DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
-      JWT_KEY : YourSecretJWTKey
+      DB_URL: postgres://postgres:postgres@my-postgres-db:5432/Storage?sslmode=disable
+      JWT_KEY : secret
       AUTH_URL: http://localhost:8081/
     depends_on:
       - postgres  
@@ -40,7 +40,7 @@ services:
   go-app:
     build: ./cmd/rest-server  
     environment:
-      DB_URL: postgres://postgres:changemepass@my-postgres-db:5432/Storage?sslmode=disable
+      DB_URL: postgres://postgres:postgres@my-postgres-db:5432/Storage?sslmode=disable
       AUTH_URL: http://localhost:8080/
     depends_on:
       - postgres  

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/DanialKassym/GoStorage/auth-service/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -17,27 +16,7 @@ var (
 )
 
 func AddUser(user models.User, hashedpass string) {
-	cwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println("error getting current directory: ", err)
-		os.Exit(1)
-	}
-	fmt.Println(cwd)
-	time.Sleep(115 * time.Second) /*
-		path := filepath.Join("..", "..", "..") // two dirs up
-		absPath, _ := filepath.Abs(path)
-		envFilePath := filepath.Join(absPath, ".env")
-		err = godotenv.Load(envFilePath)
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}/*
-
-		/*err = godotenv.Load(envFilePath)
-		if err != nil {
-			fmt.Println("error loading .env: ", err)
-			os.Exit(1)
-		}*/
-	err = godotenv.Load(envPath)
+	err := godotenv.Load(envPath)
 	if err != nil {
 		fmt.Println("error loading .env file: ", err)
 	}

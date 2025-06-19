@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/DanialKassym/GoStorage/storage-service/internal/handlers"
+	"github.com/DanialKassym/GoStorage/api-gateway/internal/handlers"
 )
 
 func InitRoutes() {

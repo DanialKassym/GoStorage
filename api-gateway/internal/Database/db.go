@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	users "github.com/DanialKassym/GoStorage/storage-service/internal/models"
+	users "github.com/DanialKassym/GoStorage/api-gateway/internal/models"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
