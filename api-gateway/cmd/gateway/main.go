@@ -1,12 +1,30 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
+	"os"
 
-	routes "github.com/DanialKassym/GoStorage/api-gateway/internal/router"
+	"github.com/DanialKassym/GoStorage/api-gateway/internal/app"
+	config "github.com/DanialKassym/GoStorage/api-gateway/internal/config"
 )
 
 func main() {
-	fmt.Println("hello world")
-	routes.InitRoutes()
+	err := config.LoadConfig()
+	if err != nil {
+		slog.Error("Couldnt load .env file")
+		os.Exit(1)
+	}
+	cfg := config.NewConfig()
+	log := setupLogger()
+
+	application := app.New(log, cfg.GRPCPort)
+
+}
+
+func setupLogger() *slog.Logger {
+	var log *slog.Logger
+	log = slog.New(
+		slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
+	)
+	return log
 }
