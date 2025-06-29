@@ -3,9 +3,8 @@ package config
 import (
 	"fmt"
 	"log/slog"
+	"net"
 	"os"
-	"strconv"
-	"time"
 
 	"github.com/joho/godotenv"
 )
@@ -15,8 +14,8 @@ var (
 )
 
 type Config struct {
-	GRPCPort int
-	TokenTTL time.Duration
+	HTTPAddr string
+	GRPCAddr string
 }
 
 func LoadConfig() error {
@@ -29,17 +28,16 @@ func LoadConfig() error {
 }
 
 func NewConfig() *Config {
-	port,err := strconv.Atoi(os.Getenv("GRPC_PORT"))
-	if err != nil{
-		slog.Error("Invalid grpc port ")
-	}
-	token,err := strconv.Atoi(os.Getenv("TokenTTL"))
-	if err != nil{
-		slog.Error("Invalid tokenttl duration")
-	}
-	tokenttl := time.Duration(token) * time.Second
+	http_host := os.Getenv("HTTP_HOST")
+	http_port := os.Getenv("HTTP_PORT")
+	grpc_port := os.Getenv("GRPC_PORT")
+	address := Address(http_host, http_port)
 	return &Config{
-		GRPCPort: port,
-		TokenTTL: tokenttl,
+		GRPCAddr: grpc_port,
+		HTTPAddr: address,
 	}
+}
+
+func Address(host string, port string) string {
+	return net.JoinHostPort(host, port)
 }
