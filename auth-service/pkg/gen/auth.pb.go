@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: auth.proto
 
-package auth
+package auth_proto
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -303,7 +303,8 @@ var File_auth_proto protoreflect.FileDescriptor
 const file_auth_proto_rawDesc = "" +
 	"\n" +
 	"\n" +
-	"auth.proto\x12\x04auth\x1a\x1bgoogle/protobuf/empty.proto\"[\n" +
+	"auth.proto\x12\n" +
+	"auth_proto\x1a\x1bgoogle/protobuf/empty.proto\"[\n" +
 	"\x13RegistrationRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +
@@ -320,11 +321,11 @@ const file_auth_proto_rawDesc = "" +
 	"\frefreshToken\x18\x02 \x01(\tR\frefreshToken\x12\x16\n" +
 	"\x06userId\x18\x03 \x01(\x03R\x06userId\"8\n" +
 	"\x14ValidateTokenRequest\x12 \n" +
-	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken2\xc4\x01\n" +
-	"\x04Auth\x12E\n" +
-	"\fRegistration\x12\x19.auth.RegistrationRequest\x1a\x1a.auth.RegistrationResponse\x120\n" +
-	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x12C\n" +
-	"\rValidateToken\x12\x1a.auth.ValidateTokenRequest\x1a\x16.google.protobuf.EmptyB5Z3github.com/DanialKassym/GoStorage/auth-service;authb\x06proto3"
+	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken2\xe2\x01\n" +
+	"\x04Auth\x12Q\n" +
+	"\fRegistration\x12\x1f.auth_proto.RegistrationRequest\x1a .auth_proto.RegistrationResponse\x12<\n" +
+	"\x05Login\x12\x18.auth_proto.LoginRequest\x1a\x19.auth_proto.LoginResponse\x12I\n" +
+	"\rValidateToken\x12 .auth_proto.ValidateTokenRequest\x1a\x16.google.protobuf.EmptyB;Z9github.com/DanialKassym/GoStorage/auth-service;auth_protob\x06proto3"
 
 var (
 	file_auth_proto_rawDescOnce sync.Once
@@ -340,20 +341,20 @@ func file_auth_proto_rawDescGZIP() []byte {
 
 var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_auth_proto_goTypes = []any{
-	(*RegistrationRequest)(nil),  // 0: auth.RegistrationRequest
-	(*RegistrationResponse)(nil), // 1: auth.RegistrationResponse
-	(*LoginRequest)(nil),         // 2: auth.LoginRequest
-	(*LoginResponse)(nil),        // 3: auth.LoginResponse
-	(*ValidateTokenRequest)(nil), // 4: auth.ValidateTokenRequest
+	(*RegistrationRequest)(nil),  // 0: auth_proto.RegistrationRequest
+	(*RegistrationResponse)(nil), // 1: auth_proto.RegistrationResponse
+	(*LoginRequest)(nil),         // 2: auth_proto.LoginRequest
+	(*LoginResponse)(nil),        // 3: auth_proto.LoginResponse
+	(*ValidateTokenRequest)(nil), // 4: auth_proto.ValidateTokenRequest
 	(*emptypb.Empty)(nil),        // 5: google.protobuf.Empty
 }
 var file_auth_proto_depIdxs = []int32{
-	0, // 0: auth.Auth.Registration:input_type -> auth.RegistrationRequest
-	2, // 1: auth.Auth.Login:input_type -> auth.LoginRequest
-	4, // 2: auth.Auth.ValidateToken:input_type -> auth.ValidateTokenRequest
-	1, // 3: auth.Auth.Registration:output_type -> auth.RegistrationResponse
-	3, // 4: auth.Auth.Login:output_type -> auth.LoginResponse
-	5, // 5: auth.Auth.ValidateToken:output_type -> google.protobuf.Empty
+	0, // 0: auth_proto.Auth.Registration:input_type -> auth_proto.RegistrationRequest
+	2, // 1: auth_proto.Auth.Login:input_type -> auth_proto.LoginRequest
+	4, // 2: auth_proto.Auth.ValidateToken:input_type -> auth_proto.ValidateTokenRequest
+	1, // 3: auth_proto.Auth.Registration:output_type -> auth_proto.RegistrationResponse
+	3, // 4: auth_proto.Auth.Login:output_type -> auth_proto.LoginResponse
+	5, // 5: auth_proto.Auth.ValidateToken:output_type -> google.protobuf.Empty
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

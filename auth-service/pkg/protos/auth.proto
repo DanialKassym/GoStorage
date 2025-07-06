@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package auth;
+package auth_proto;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/DanialKassym/GoStorage/auth-service;auth";
+option go_package = "github.com/DanialKassym/GoStorage/auth-service;auth_proto";
 
 service Auth {
   rpc Registration(RegistrationRequest) returns (RegistrationResponse);
