@@ -3,19 +3,21 @@ package app
 import (
 	"log/slog"
 	"net/http"
+
+	"github.com/DanialKassym/GoStorage/api-gateway/internal/client/auth_grpc_client"
 	"github.com/DanialKassym/GoStorage/api-gateway/internal/handler"
 )
 
 type App struct {
 	HTTPserver *http.ServeMux
-	Authclient *auth_client.App
+	Authclient *auth_grpc_client.GRPCClient
 }
 
 func New(
 	log *slog.Logger,
 	grpcAddr string,
 ) *App {
-	grpcApp := auth_client.NewGrpcClient(log, grpcAddr)
+	grpcApp := 
 	httpApp := http.NewServeMux()
 	handler.InitRoute(httpApp)
 	return &App{

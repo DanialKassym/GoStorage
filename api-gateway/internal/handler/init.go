@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"log"
@@ -8,11 +8,12 @@ import (
 )
 
 // InitRoutes initializes all the routes for the application.
-func InitRoute(server *http.ServeMux, ) {
+func InitRoute(server *http.ServeMux) {
 	server.HandleFunc("POST /login", handlers.Login)
 	server.HandleFunc("GET /get-access-token", handlers.Login)
 	server.HandleFunc("POST /register", handlers.Register)
 	server.HandleFunc("GET /validate-token", handlers.Main)
+	server.HandleFunc("POST /upload/", handlers.UploadObject)
 }
 
 func RunHTTPServer(server *http.ServeMux, addr string) error {

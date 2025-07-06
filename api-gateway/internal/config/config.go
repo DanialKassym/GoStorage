@@ -30,7 +30,7 @@ func LoadConfig() error {
 func NewConfig() *Config {
 	http_host := os.Getenv("HTTP_HOST")
 	http_port := os.Getenv("HTTP_PORT")
-	grpc_port := os.Getenv("GRPC_PORT")
+	grpc_port := os.Getenv("AUTH_GRPC_PORT")
 	address := Address(http_host, http_port)
 	return &Config{
 		GRPCAddr: grpc_port,
