@@ -1,38 +1,61 @@
 package grpc_auth_client
 
 import (
-	"log"
-	proto_auth "github.com/DanialKassym/GoStorage/tree/dev/auth-service/pkg/gen"
+	"context"
+	"time"
+
+	"github.com/DanialKassym/GoStorage/api-gateway/internal/converter"
+	"github.com/DanialKassym/GoStorage/api-gateway/internal/model"
+	auth_proto "github.com/DanialKassym/protos/gen"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type GRPCClient struct {
-	Client  
+	auth_client auth_proto.AuthClient
 }
 
-func NewGRPCClient(inventoryAddr, orderAddr, statsAddr string) (*GRPCClient, error) {
-	inventoryConn, err := grpc.Dial(inventoryAddr, grpc.WithInsecure())
+func NewGRPCClient(authAddr string) (*GRPCClient, error) {
+	authConn, err := grpc.NewClient(authAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("could not connect to inventory service: %v", err)
-		return nil, err
-	}
-
-	orderConn, err := grpc.Dial(orderAddr, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("could not connect to order service: %v", err)
-		return nil, err
-	}
-	statsConn, err := grpc.Dial(statsAddr, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("could not connect to statistics service: %v", err)
 		return nil, err
 	}
 
 	client := &GRPCClient{
-		InventoryClient:  proto.NewInventoryServiceClient(inventoryConn),
-		OrderClient:      proto.NewOrderServiceClient(orderConn),
-		StatisticsClient: proto.NewStatisticsServiceClient(statsConn),
+		auth_client: auth_proto.NewAuthClient(authConn),
 	}
 
 	return client, nil
+}
+
+func (g *GRPCClient) Login(request *model.LoginRequest) (*model.LoginResponse, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	result, err := g.auth_client.Login(ctx, converter.FromModelToProtoLogin(request))
+	if err != nil {
+
+	}
+
+	return converter.ToModelFromProtoLogin(result), nil
+}
+
+func (g *GRPCClient) Registration(
+	request *model.RegistrationRequest) (*model.RegistrationResponse,string, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	result, err := g.auth_client.Registration(ctx, converter.FromModelToProtoRegister(request))
+
+	if err != nil {
+	}
+
+	return converter.ToModelFromProtoRegister(result), result.GetRefreshToken(), nil
+}
+func (g *GRPCClient) ValidateToken(accessToken string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	_, err := g.auth_client.ValidateToken(ctx,converter.ToProtoValidateToken(accessToken))
+	if err != nil {
+
+	}
+	return nil
 }

@@ -7,12 +7,10 @@ import (
 	"github.com/rs/cors"
 )
 
-// InitRoutes initializes all the routes for the application.
 func InitRoute(server *http.ServeMux) {
 	server.HandleFunc("POST /login", handlers.Login)
-	server.HandleFunc("GET /get-access-token", handlers.Login)
 	server.HandleFunc("POST /register", handlers.Register)
-	server.HandleFunc("GET /validate-token", handlers.Main)
+	server.HandleFunc("GET /validate-token", handlers.ValidateToken)
 	server.HandleFunc("POST /upload/", handlers.UploadObject)
 }
 
