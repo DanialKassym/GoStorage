@@ -17,8 +17,8 @@ func main() {
 	cfg := config.NewConfig()
 	log := setupLogger()
 
-	application := app.New(log, cfg.GRPCAddr)
-	application.Run(log,cfg.HTTPAddr,application.HTTPserver)
+	application := app.New(log, cfg.GRPCAddr,cfg.HTTPAddr)
+	application.Run()
 }
 
 func setupLogger() *slog.Logger {

@@ -28,15 +28,12 @@ func NewGRPCClient(authAddr string) (*GRPCClient, error) {
 	return client, nil
 }
 
-func (g *GRPCClient) Login(request *model.LoginRequest) (*model.LoginResponse, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
+func (g *GRPCClient) Login(ctx context.Context, request *model.LoginRequest) (*model.LoginResponse, error) {
 	result, err := g.auth_client.Login(ctx, converter.FromModelToProtoLogin(request))
 	if err != nil {
-
+		return nil, err
 	}
-
-	return converter.ToModelFromProtoLogin(result), nil
+	return converter.ToModelFromProtoLogin(result),nil
 }
 
 func (g *GRPCClient) Registration(

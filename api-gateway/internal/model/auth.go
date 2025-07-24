@@ -15,7 +15,6 @@ type LoginRequest struct {
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required,min=5,max=15"`
 	Username string `json:"Username" validate:"required,min=5,max=15"`
-	
 }
 
 type LoginResponse struct {
