@@ -1,7 +1,6 @@
 package app
 
 import (
-	"log"
 	"log/slog"
 	"net/http"
 	"os"
@@ -39,11 +38,6 @@ func New(
 
 func (a *App) Run() {
 	a.InitRoute()
-	if a.HTTPserver == nil {
-		log.Fatal("HTTP handler is nil!")
-		a.logger.Warn("couldnt servemux")
-		os.Exit(1)
-	}
 
 	err := a.RunHTTPServer()
 	if err != nil {
@@ -56,7 +50,7 @@ func (a *App) InitRoute() {
 	a.HTTPserver.HandleFunc("POST /login", handlers.Login(a.logger, a.Authclient))
 	//a.HTTPserver.HandleFunc("POST /register", handlers.Register)
 	//a.HTTPserver.HandleFunc("GET /validate-token", handlers.ValidateToken)
-	//server.HandleFunc("POST /upload/", handlers.UploadObject)
+	//a.HTTPserver.HandleFunc("POST /upload/", handlers.UploadObject)
 }
 
 func (a *App) RunHTTPServer() error {
