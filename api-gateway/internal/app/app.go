@@ -41,7 +41,7 @@ func (a *App) Run() {
 
 	err := a.RunHTTPServer()
 	if err != nil {
-		a.logger.Error("couldnt init http server", err)
+		a.logger.Error("couldnt init http server", err.Error())
 		os.Exit(1)
 	}
 }
