@@ -7,9 +7,9 @@ import (
 )
 
 type AuthClient interface {
-	Login(ctx context.Context, request *model.LoginRequest) (*model.LoginResponse,string, error)
+	Login(ctx context.Context, request *model.LoginRequest) (*model.LoginResponse,error)
 
-	Registration(ctx context.Context,request *model.RegistrationRequest) (*model.RegistrationResponse, string, error)
+	Registration(ctx context.Context, request *model.RegistrationRequest) (*model.RegistrationResponse, string, error)
 
-	ValidateToken(ctx context.Context,accessToken string) error
+	ValidateToken(ctx context.Context, accessToken string) error
 }

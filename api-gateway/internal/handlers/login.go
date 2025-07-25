@@ -42,7 +42,7 @@ func Login(logger *slog.Logger, client *grpc_auth_client.GRPCClient) http.Handle
 			return
 		}
 		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("Authorization", "Bearer "+result.AccessToken)
+		w.Header().Set("Authorization", "Bearer " + result.AccessToken)
 	}
 
 }
