@@ -3,6 +3,7 @@ module github.com/DanialKassym/GoStorage/auth-service
 go 1.24.3
 
 require (
+	github.com/DanialKassym/protos v1.0.0
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/jackc/pgx/v5 v5.7.5

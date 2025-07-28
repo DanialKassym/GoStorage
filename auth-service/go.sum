@@ -1,3 +1,5 @@
+github.com/DanialKassym/protos v1.0.0 h1:f9DOyDK+i8l7SfnOYEhcu7BPL883g+AF+zepKAmWEHI=
+github.com/DanialKassym/protos v1.0.0/go.mod h1:PETT/WWBIRXGjmDMCwMaG9ctK80QUio67R8WSxk6YFg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
